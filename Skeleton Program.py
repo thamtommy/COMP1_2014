@@ -79,7 +79,8 @@ def DisplayMenu():
 def GetMenuChoice():
   Choice = input()
   print()
-  return Choice
+  Choice = Choice[0]
+  return Choice.lower()
 
 def LoadDeck(Deck):
   CurrentFile = open('deck.txt', 'r')
@@ -137,7 +138,7 @@ def GetChoiceFromUser():
   Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ')
   Choice = Choice [0]
   
-  return Choice.upper()
+  return Choice.lower()
 
 def DisplayEndOfGameMessage(Score):
   print()
@@ -196,7 +197,7 @@ def PlayGame(Deck, RecentScores):
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
     Choice = ''
-    while (Choice != 'Y') and (Choice != 'N'):
+    while (Choice != 'y') and (Choice != 'n'):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
