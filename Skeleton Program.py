@@ -135,7 +135,9 @@ def GetPlayerName():
 
 def GetChoiceFromUser():
   Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ')
-  return Choice
+  Choice = Choice [0]
+  
+  return Choice.upper()
 
 def DisplayEndOfGameMessage(Score):
   print()
@@ -194,7 +196,7 @@ def PlayGame(Deck, RecentScores):
   while (NoOfCardsTurnedOver < 52) and (not GameOver):
     GetCard(NextCard, Deck, NoOfCardsTurnedOver)
     Choice = ''
-    while (Choice != 'y') and (Choice != 'n'):
+    while (Choice != 'Y') and (Choice != 'N'):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
