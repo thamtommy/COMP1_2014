@@ -6,4 +6,13 @@
 		PlayerName: Variable
 		OUTPUT 'Please enter your name: '
 		INPUT 'PlayerName'
-		WHILE player
+		validName <- False
+		WHILE NOT validName DO:
+			IF len(PlayerName) > 0 DO:
+				validName <- True
+				RETURN validName
+			ELSE DO
+				OUTPUT 'Please enter a valid name.'
+			END IF
+		END WHILE
+	END FUNCTION
