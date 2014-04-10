@@ -4,10 +4,10 @@
 	FUNCTION GetPlayerName
 		validName: Boolean
 		PlayerName: Variable
-		OUTPUT 'Please enter your name: '
-		INPUT 'PlayerName'
 		validName <- False
 		WHILE NOT validName DO:
+			OUTPUT 'Please enter your name: '
+			INPUT 'PlayerName'
 			IF len(PlayerName) > 0 DO:
 				validName <- True
 				RETURN PlayerName
