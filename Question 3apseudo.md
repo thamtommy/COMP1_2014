@@ -10,7 +10,7 @@
 		WHILE NOT validName DO:
 			IF len(PlayerName) > 0 DO:
 				validName <- True
-				RETURN validName
+				RETURN PlayerName
 			ELSE DO
 				OUTPUT 'Please enter a valid name.'
 			END IF
