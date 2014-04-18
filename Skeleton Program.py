@@ -4,7 +4,7 @@
 # developed in the Python 3.2 programming environment
 # version 2 edited 06/03/2014
 
-
+import datetime
 import random
 
 NO_OF_RECENT_SCORES = 3
@@ -18,6 +18,7 @@ class TRecentScore():
   def __init__(self):
     self.Name = ''
     self.Score = 0
+    self.Date = ''
 
 Deck = [None]
 RecentScores = [None]
@@ -170,9 +171,9 @@ def DisplayRecentScores(RecentScores):
   print()
   print('Recent Scores: ')
   print()
-  print("{0:<15}{1:<15}".format("Name","Score"))
+  print("{0:<15}{1:<15}{2:<15}".format("Name","Score","Date"))
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    print("{0:<15}{1:<15}".format(RecentScores[Count].Name,RecentScores[Count].Score))
+    print("{0:<15}{1:<15}{2:<15}".format(RecentScores[Count].Name,RecentScores[Count].Score,RecentScores[Count].Date))
   print()
   print('Press the Enter key to return to the main menu')
   input()
@@ -183,6 +184,8 @@ def UpdateRecentScores(RecentScores, Score):
   AddScore = AddScore[0]
   AddScore = AddScore.lower()
   if AddScore == "y":
+    CurrentDate = datetime.date.today()
+    TodaysDate = datetime.date.strftime(CurrentDate,"%d/%m/%y")
     PlayerName = GetPlayerName()
     FoundSpace = False
     Count = 1
@@ -195,9 +198,11 @@ def UpdateRecentScores(RecentScores, Score):
       for Count in range(1, NO_OF_RECENT_SCORES):
         RecentScores[Count].Name = RecentScores[Count + 1].Name
         RecentScores[Count].Score = RecentScores[Count + 1].Score
+        RecentScore[Count].Date = RecentScore[Count + 1].Date
       Count = NO_OF_RECENT_SCORES
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
+    RecentScores[Count].Date = TodaysDate
 
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
