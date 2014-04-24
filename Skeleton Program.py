@@ -54,6 +54,36 @@ def GetRank(RankNo):
     Rank = 'King'
   return Rank
 
+def GetRank_change(RankNo):
+    Rank = ''
+    if RankNo == 1:
+      Rank = 'Two'
+    elif RankNo == 2:
+      Rank = 'Three'
+    elif RankNo == 3: 
+      Rank = 'Four'
+    elif RankNo == 4:
+      Rank = 'Five'
+    elif RankNo == 5:
+      Rank = 'Six'
+    elif RankNo == 6:
+      Rank = 'Seven'
+    elif RankNo == 7:
+      Rank = 'Eight'
+    elif RankNo == 8:
+      Rank = 'Nine'
+    elif RankNo == 9:
+      Rank = 'Ten'
+    elif RankNo == 10:
+      Rank = 'Jack'
+    elif RankNo == 11:
+      Rank = 'Queen'
+    elif RankNo == 12:
+      Rank = 'King'
+    elif RankNo == 13:
+      Rank = 'Ace'
+    return Rank
+
 def GetSuit(SuitNo):
   Suit = ''
   if SuitNo == 1:
@@ -102,8 +132,13 @@ def GetOptionChoice():
     
 
 def AceChange():
-  print("I am not working on this yet.")
-      
+  acechange = False
+  while not acechange:
+    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
+    HighOrLow = HighOrLow.lower()
+    if HighOrLow == 'h':
+      Rank = GetRank_change(RankNo)
+
     
   
   
