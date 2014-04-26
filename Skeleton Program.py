@@ -19,7 +19,8 @@ class TRecentScore():
     self.Name = ''
     self.Score = 0
     self.Date = ''
-
+    
+acechange = False
 Deck = [None]
 RecentScores = [None]
 Choice = ''
@@ -52,37 +53,11 @@ def GetRank(RankNo):
     Rank = 'Queen'
   elif RankNo == 13:
     Rank = 'King'
+  elif RankNo == 14:
+    Rank = 'Ace'
   return Rank
 
-def GetRank_change(RankNo):
-    Rank = ''
-    if RankNo == 1:
-      Rank = 'Two'
-    elif RankNo == 2:
-      Rank = 'Three'
-    elif RankNo == 3: 
-      Rank = 'Four'
-    elif RankNo == 4:
-      Rank = 'Five'
-    elif RankNo == 5:
-      Rank = 'Six'
-    elif RankNo == 6:
-      Rank = 'Seven'
-    elif RankNo == 7:
-      Rank = 'Eight'
-    elif RankNo == 8:
-      Rank = 'Nine'
-    elif RankNo == 9:
-      Rank = 'Ten'
-    elif RankNo == 10:
-      Rank = 'Jack'
-    elif RankNo == 11:
-      Rank = 'Queen'
-    elif RankNo == 12:
-      Rank = 'King'
-    elif RankNo == 13:
-      Rank = 'Ace'
-    return Rank
+
 
 def GetSuit(SuitNo):
   Suit = ''
@@ -125,24 +100,43 @@ def GetOptionChoice():
   while not validOptionChoice:
     OptionChoice = input("Select an option from the menu(or enter q to quit): ")
     if OptionChoice == '1':
-      AceChange()
       validOptionChoice = True
     elif OptionChoice == 'q':
       validOptionChoice = True
+  return OptionChoice
     
 
 def AceChange():
-  acechange = False
-  while not acechange:
+  while True:
     HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
     HighOrLow = HighOrLow.lower()
     if HighOrLow == 'h':
-      Rank = GetRank_change(RankNo)
+      HighOrLow = True
+      return HighOrLow
+      break
+    elif HighOrLow == 'l':
+      HighOrLow = False
+      return HighOrLow
+      break
+      
 
+def LoadAceDeck(Deck):
+  CurrentFile = open('deck.txt', 'r')
+  Count = 1
+  while True:
+    LineFromFile = CurrentFile.readline()
+    if not LineFromFile:
+      CurrentFile.close()
+      break
+    Deck[Count].Suit = int(LineFromFile)
+    LineFromFile = CurrentFile.readline()
+    if int(LineFromFile) == 1:
+      LineFromFile = 14
+    Deck[Count].Rank = int(LineFromFile)
     
-  
-  
-
+    
+    Count = Count + 1  
+      
 def LoadDeck(Deck):
   CurrentFile = open('deck.txt', 'r')
   Count = 1
@@ -302,12 +296,21 @@ if __name__ == '__main__':
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
-      LoadDeck(Deck)
-      ShuffleDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      if HighOrLow == True:
+        LoadAceDeck(Deck)
+        ShuffleDeck(Deck)
+        PlayGame(Deck, RecentScores)
+      else:
+        LoadDeck(Deck)
+        ShuffleDeck(Deck)
+        PlayGame(Deck, RecentScores)
     elif Choice == '2':
-      LoadDeck(Deck)
-      PlayGame(Deck, RecentScores)
+      if HighOrLow == True:
+        LoadAceDeck(Deck)
+        PlayGame(Deck, RecentScores)
+      else:
+        LoadDeck(Deck)
+        PlayGame(Deck, RecentScores)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
@@ -315,5 +318,7 @@ if __name__ == '__main__':
     elif Choice == '5':
       DisplayOptions()
       OptionChoice = GetOptionChoice()
+      if OptionChoice == '1':
+         HighOrLow = AceChange()
       
       
