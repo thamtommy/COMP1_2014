@@ -94,15 +94,22 @@ def DisplayOptions():
   print('')
 
 def GetOptionChoice():
+  ChoiceList = ['1','q']
   validOptionChoice = False
   while not validOptionChoice:
     OptionChoice = input("Select an option from the menu(or enter q to quit): ")
-    if OptionChoice == '1':
+    if OptionChoice in ChoiceList:
       validOptionChoice = True
-    elif OptionChoice == 'q':
-      validOptionChoice = True
-  return OptionChoice
+      return OptionChoice
+    SetOptions(OptionChoice)
+
+def SetOptions(OptionChoice):
+  if OptionChoice == '1':
+    AceChange()  
+  
     
+
+  
 
 def AceChange():
   while True:
