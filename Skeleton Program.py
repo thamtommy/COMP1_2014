@@ -19,23 +19,15 @@ class TRecentScore():
     self.Name = ''
     self.Score = 0
     self.Date = ''
-<<<<<<< HEAD
     
 acechange = False
-=======
-
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
 Deck = [None]
 RecentScores = [None]
 Choice = ''
 
 def GetRank(RankNo):
   Rank = ''
-<<<<<<< HEAD
   if RankNo == 1 or RankNo == 14:
-=======
-  if RankNo == 1 and RankNo ==14:
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
     Rank = 'Ace'
   elif RankNo == 2:
     Rank = 'Two'
@@ -93,11 +85,7 @@ def GetMenuChoice():
   Choice = input()
   print()
   
-<<<<<<< HEAD
   return Choice.lower()
-=======
-  return Choice.lower() 
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
 
 def DisplayOptions():
   print('OPTIONS MENU')
@@ -106,7 +94,6 @@ def DisplayOptions():
   print('')
 
 def GetOptionChoice():
-<<<<<<< HEAD
   ChoiceList = ['1','q']
   validOptionChoice = False
   while not validOptionChoice:
@@ -121,56 +108,6 @@ def SetOptions(OptionChoice):
     AceChange()  
   
     
-=======
-  validOptionChoice = False
-  while not validOptionChoice:
-    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
-   
-    
-def SetOptions(OptionChoice):
-    if OptionChoice == '1':
-      AceChange()
-      validOptionChoice = True
-    elif OptionChoice == 'q':
-      validOptionChoice = True
-
-def AceChange():
-  acechange = False
-  while not acechange:
-    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
-    HighOrLow = HighOrLow.lower()
-    if HighOrLow == 'h':
-      print("test")
-  OptionList = ['1','q']
-  validOptionChoice = False
-  while not validOptionChoice:
-    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
-    if OptionChoice in OptionList:
-      validOptionChoice = True
-    SetOptions(OptionChoice)
-      
-      
-   
-    
-def SetOptions(OptionChoice):
-    if OptionChoice == '1':
-      AceChange()
-    
-      
-
-def AceChange():
-  while True:
-    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
-    HighOrLow = HighOrLow.lower()
-    if HighOrLow == 'h':
-      HighOrLow = True
-      break
-    elif HighOrLow == 'l':
-      HighOrLow = False
-      break
-    return HighOrLow
-  
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
 
   
 
@@ -213,12 +150,11 @@ def LoadDeck(Deck):
     if not LineFromFile:
       CurrentFile.close()
       break
-      Deck[Count].Suit = int(LineFromFile)
-      LineFromFile = CurrentFile.readline()
-      Deck[Count].Rank = int(LineFromFile)
-      Count = Count + 1
-
-      
+    Deck[Count].Suit = int(LineFromFile)
+    LineFromFile = CurrentFile.readline()
+    Deck[Count].Rank = int(LineFromFile)
+    Count = Count + 1
+ 
 def ShuffleDeck(Deck):
   SwapSpace = TCard()
   NoOfSwaps = 1000
@@ -387,10 +323,7 @@ if __name__ == '__main__':
     elif Choice == '5':
       DisplayOptions()
       OptionChoice = GetOptionChoice()
-<<<<<<< HEAD
       if OptionChoice == '1':
          HighOrLow = AceChange()
-=======
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
       
       
