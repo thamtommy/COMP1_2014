@@ -2,10 +2,10 @@
 # this code should be used in conjunction with the Preliminary Material
 # written by the AQA Programmer Team
 # developed in the Python 3.2 programming environment
+# version 2 edited 06/03/2014
 
-
+import datetime
 import random
-from datetime import date
 
 NO_OF_RECENT_SCORES = 3
 
@@ -18,7 +18,7 @@ class TRecentScore():
   def __init__(self):
     self.Name = ''
     self.Score = 0
-    self.Date = None
+    self.Date = ''
 
 Deck = [None]
 RecentScores = [None]
@@ -26,7 +26,7 @@ Choice = ''
 
 def GetRank(RankNo):
   Rank = ''
-  if RankNo == 1:
+  if RankNo == 1 and RankNo ==14:
     Rank = 'Ace'
   elif RankNo == 2:
     Rank = 'Two'
@@ -50,7 +50,7 @@ def GetRank(RankNo):
     Rank = 'Jack'
   elif RankNo == 12:
     Rank = 'Queen'
-  else:
+  elif RankNo == 13:
     Rank = 'King'
   return Rank
 
@@ -62,7 +62,7 @@ def GetSuit(SuitNo):
     Suit = 'Diamonds'
   elif SuitNo == 3:
     Suit = 'Hearts'
-  else:
+  elif SuitNo == 4:
     Suit = 'Spades'
   return Suit
 
@@ -74,13 +74,71 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
+  print('5. Options')
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def GetMenuChoice():
   Choice = input()
   print()
-  return Choice.lower()[0]
+  
+  return Choice.lower() 
+
+def DisplayOptions():
+  print('OPTIONS MENU')
+  print('')
+  print('1. Set Ace to be HIGH or LOW')
+  print('')
+
+def GetOptionChoice():
+  validOptionChoice = False
+  while not validOptionChoice:
+    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
+   
+    
+def SetOptions(OptionChoice):
+    if OptionChoice == '1':
+      AceChange()
+      validOptionChoice = True
+    elif OptionChoice == 'q':
+      validOptionChoice = True
+
+def AceChange():
+  acechange = False
+  while not acechange:
+    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
+    HighOrLow = HighOrLow.lower()
+    if HighOrLow == 'h':
+      print("test")
+  OptionList = ['1','q']
+  validOptionChoice = False
+  while not validOptionChoice:
+    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
+    if OptionChoice in OptionList:
+      validOptionChoice = True
+    SetOptions(OptionChoice)
+      
+      
+   
+    
+def SetOptions(OptionChoice):
+    if OptionChoice == '1':
+      AceChange()
+    
+      
+
+def AceChange():
+  while True:
+    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
+    HighOrLow = HighOrLow.lower()
+    if HighOrLow == 'h':
+      HighOrLow = True
+      break
+    elif HighOrLow == 'l':
+      HighOrLow = False
+      break
+    return HighOrLow
+  
 
 def LoadDeck(Deck):
   CurrentFile = open('deck.txt', 'r')
@@ -90,11 +148,12 @@ def LoadDeck(Deck):
     if not LineFromFile:
       CurrentFile.close()
       break
-    Deck[Count].Suit = int(LineFromFile)
-    LineFromFile = CurrentFile.readline()
-    Deck[Count].Rank = int(LineFromFile)
-    Count = Count + 1
- 
+      Deck[Count].Suit = int(LineFromFile)
+      LineFromFile = CurrentFile.readline()
+      Deck[Count].Rank = int(LineFromFile)
+      Count = Count + 1
+
+      
 def ShuffleDeck(Deck):
   SwapSpace = TCard()
   NoOfSwaps = 1000
@@ -130,19 +189,22 @@ def IsNextCardHigher(LastCard, NextCard):
 
 def GetPlayerName():
   print()
-  valid = False
-  while not valid:
+  validName = False
+  while not validName:
     PlayerName = input('Please enter your name: ')
     if len(PlayerName) > 0:
-      valid = True
+      validName = True
+      return PlayerName
     else:
-      print("You must enter something for your name!")
+      print("Please enter a valid name.")
   print()
   return PlayerName
 
 def GetChoiceFromUser():
   Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ')
-  return Choice.lower()[0]
+  Choice = Choice [0]
+  
+  return Choice.lower()
 
 def DisplayEndOfGameMessage(Score):
   print()
@@ -162,36 +224,26 @@ def ResetRecentScores(RecentScores):
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores[Count].Name = ''
     RecentScores[Count].Score = 0
-    RecentScores[Count].Date = None
 
 def DisplayRecentScores(RecentScores):
   print()
   print('Recent Scores: ')
   print()
-  print("{0:<12}{1:<10}{2:<5}".format("Date","Name","Score"))
-  print()
+  print("{0:<15}{1:<15}{2:<15}".format("Name","Score","Date"))
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    if RecentScores[Count].Date != None:
-      ScoreDate = RecentScores[Count].Date.strftime("%d/%m/%Y")
-    else:
-      ScoreDate = "N/A"
-    print("{0:<12}{1:<10}{2:<5}".format(ScoreDate,RecentScores[Count].Name,RecentScores[Count].Score))
+    print("{0:<15}{1:<15}{2:<15}".format(RecentScores[Count].Name,RecentScores[Count].Score,RecentScores[Count].Date))
   print()
   print('Press the Enter key to return to the main menu')
   input()
   print()
 
 def UpdateRecentScores(RecentScores, Score):
-  valid = False
-  while not valid:
-    Choice = input("Do you want to add your score to the high score table? (y or n): ")
-    Choice = Choice.lower()[0]
-    if Choice in ["y","n"]:
-      valid = True
-    else:
-      print("Please enter a valid choice (y or n)")
-
-  if Choice == "y":
+  AddScore = input("Do you want to add your score to the high score table? (y or n): ")
+  AddScore = AddScore[0]
+  AddScore = AddScore.lower()
+  if AddScore == "y":
+    CurrentDate = datetime.date.today()
+    TodaysDate = datetime.date.strftime(CurrentDate,"%d/%m/%y")
     PlayerName = GetPlayerName()
     FoundSpace = False
     Count = 1
@@ -199,15 +251,16 @@ def UpdateRecentScores(RecentScores, Score):
       if RecentScores[Count].Name == '':
         FoundSpace = True
       else:
-        Count = Count + 1
+         Count = Count + 1
     if not FoundSpace:
       for Count in range(1, NO_OF_RECENT_SCORES):
         RecentScores[Count].Name = RecentScores[Count + 1].Name
         RecentScores[Count].Score = RecentScores[Count + 1].Score
+        RecentScore[Count].Date = RecentScore[Count + 1].Date
       Count = NO_OF_RECENT_SCORES
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
-    RecentScores[Count].Date = date.today()
+    RecentScores[Count].Date = TodaysDate
 
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
@@ -255,5 +308,10 @@ if __name__ == '__main__':
       PlayGame(Deck, RecentScores)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
-    else:
+    elif Choice == '4':
       ResetRecentScores(RecentScores)
+    elif Choice == '5':
+      DisplayOptions()
+      OptionChoice = GetOptionChoice()
+      
+      
