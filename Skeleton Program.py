@@ -107,9 +107,6 @@ def SetOptions(OptionChoice):
   if OptionChoice == '1':
     AceChange()  
   
-    
-
-  
 
 def AceChange():
   while True:
@@ -298,6 +295,7 @@ if __name__ == '__main__':
     RecentScores.append(TRecentScore())
   Choice = ''
   while Choice != 'q':
+    HighOrLow = False
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
