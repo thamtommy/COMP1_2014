@@ -2,10 +2,9 @@
 # this code should be used in conjunction with the Preliminary Material
 # written by the AQA Programmer Team
 # developed in the Python 3.2 programming environment
-# version 2 edited 06/03/2014
 
-import datetime
 import random
+from datetime import date
 
 NO_OF_RECENT_SCORES = 3
 
@@ -18,24 +17,15 @@ class TRecentScore():
   def __init__(self):
     self.Name = ''
     self.Score = 0
-    self.Date = ''
-<<<<<<< HEAD
-    
-acechange = False
-=======
+    self.Date = None
 
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
 Deck = [None]
 RecentScores = [None]
 Choice = ''
 
 def GetRank(RankNo):
   Rank = ''
-<<<<<<< HEAD
-  if RankNo == 1 or RankNo == 14:
-=======
-  if RankNo == 1 and RankNo ==14:
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
+  if RankNo == 1:
     Rank = 'Ace'
   elif RankNo == 2:
     Rank = 'Two'
@@ -59,11 +49,9 @@ def GetRank(RankNo):
     Rank = 'Jack'
   elif RankNo == 12:
     Rank = 'Queen'
-  elif RankNo == 13:
+  else:
     Rank = 'King'
   return Rank
-
-
 
 def GetSuit(SuitNo):
   Suit = ''
@@ -73,7 +61,7 @@ def GetSuit(SuitNo):
     Suit = 'Diamonds'
   elif SuitNo == 3:
     Suit = 'Hearts'
-  elif SuitNo == 4:
+  else:
     Suit = 'Spades'
   return Suit
 
@@ -85,110 +73,15 @@ def DisplayMenu():
   print('2. Play game (without shuffle)')
   print('3. Display recent scores')
   print('4. Reset recent scores')
-  print('5. Options')
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
 def GetMenuChoice():
   Choice = input()
   print()
-  
-<<<<<<< HEAD
-  return Choice.lower()
-=======
-  return Choice.lower() 
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
+  return Choice.lower()[0]
 
-def DisplayOptions():
-  print('OPTIONS MENU')
-  print('')
-  print('1. Set Ace to be HIGH or LOW')
-  print('')
-
-def GetOptionChoice():
-<<<<<<< HEAD
-  ChoiceList = ['1','q']
-  validOptionChoice = False
-  while not validOptionChoice:
-    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
-    if OptionChoice in ChoiceList:
-      validOptionChoice = True
-      return OptionChoice
-    SetOptions(OptionChoice)
-
-def SetOptions(OptionChoice):
-  if OptionChoice == '1':
-    AceChange()  
-  
-    
-=======
-  validOptionChoice = False
-  while not validOptionChoice:
-    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
-   
-    
-def SetOptions(OptionChoice):
-    if OptionChoice == '1':
-      AceChange()
-      validOptionChoice = True
-    elif OptionChoice == 'q':
-      validOptionChoice = True
-
-def AceChange():
-  acechange = False
-  while not acechange:
-    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
-    HighOrLow = HighOrLow.lower()
-    if HighOrLow == 'h':
-      print("test")
-  OptionList = ['1','q']
-  validOptionChoice = False
-  while not validOptionChoice:
-    OptionChoice = input("Select an option from the menu(or enter q to quit): ")
-    if OptionChoice in OptionList:
-      validOptionChoice = True
-    SetOptions(OptionChoice)
-      
-      
-   
-    
-def SetOptions(OptionChoice):
-    if OptionChoice == '1':
-      AceChange()
-    
-      
-
-def AceChange():
-  while True:
-    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
-    HighOrLow = HighOrLow.lower()
-    if HighOrLow == 'h':
-      HighOrLow = True
-      break
-    elif HighOrLow == 'l':
-      HighOrLow = False
-      break
-    return HighOrLow
-  
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
-
-  
-
-def AceChange():
-  while True:
-    HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
-    HighOrLow = HighOrLow.lower()
-    if HighOrLow == 'h':
-      HighOrLow = True
-      return HighOrLow
-      break
-    elif HighOrLow == 'l':
-      HighOrLow = False
-      return HighOrLow
-      break
-      
-
-def LoadAceDeck(Deck):
+def LoadDeck(Deck):
   CurrentFile = open('deck.txt', 'r')
   Count = 1
   while True:
@@ -198,27 +91,9 @@ def LoadAceDeck(Deck):
       break
     Deck[Count].Suit = int(LineFromFile)
     LineFromFile = CurrentFile.readline()
-    if int(LineFromFile) == 1:
-      LineFromFile = 14
     Deck[Count].Rank = int(LineFromFile)
-    
-    
-    Count = Count + 1  
-      
-def LoadDeck(Deck):
-  CurrentFile = open('deck.txt', 'r')
-  Count = 1
-  while True:
-    LineFromFile = CurrentFile.readline()
-    if not LineFromFile:
-      CurrentFile.close()
-      break
-      Deck[Count].Suit = int(LineFromFile)
-      LineFromFile = CurrentFile.readline()
-      Deck[Count].Rank = int(LineFromFile)
-      Count = Count + 1
-
-      
+    Count = Count + 1
+ 
 def ShuffleDeck(Deck):
   SwapSpace = TCard()
   NoOfSwaps = 1000
@@ -254,22 +129,19 @@ def IsNextCardHigher(LastCard, NextCard):
 
 def GetPlayerName():
   print()
-  validName = False
-  while not validName:
+  valid = False
+  while not valid:
     PlayerName = input('Please enter your name: ')
     if len(PlayerName) > 0:
-      validName = True
-      return PlayerName
+      valid = True
     else:
-      print("Please enter a valid name.")
+      print("You must enter something for your name!")
   print()
   return PlayerName
 
 def GetChoiceFromUser():
   Choice = input('Do you think the next card will be higher than the last card (enter y or n)? ')
-  Choice = Choice [0]
-  
-  return Choice.lower()
+  return Choice.lower()[0]
 
 def DisplayEndOfGameMessage(Score):
   print()
@@ -289,26 +161,36 @@ def ResetRecentScores(RecentScores):
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
     RecentScores[Count].Name = ''
     RecentScores[Count].Score = 0
+    RecentScores[Count].Date = None
 
 def DisplayRecentScores(RecentScores):
   print()
   print('Recent Scores: ')
   print()
-  print("{0:<15}{1:<15}{2:<15}".format("Name","Score","Date"))
+  print("{0:<12}{1:<10}{2:<5}".format("Date","Name","Score"))
+  print()
   for Count in range(1, NO_OF_RECENT_SCORES + 1):
-    print("{0:<15}{1:<15}{2:<15}".format(RecentScores[Count].Name,RecentScores[Count].Score,RecentScores[Count].Date))
+    if RecentScores[Count].Date != None:
+      ScoreDate = RecentScores[Count].Date.strftime("%d/%m/%Y")
+    else:
+      ScoreDate = "N/A"
+    print("{0:<12}{1:<10}{2:<5}".format(ScoreDate,RecentScores[Count].Name,RecentScores[Count].Score))
   print()
   print('Press the Enter key to return to the main menu')
   input()
   print()
 
 def UpdateRecentScores(RecentScores, Score):
-  AddScore = input("Do you want to add your score to the high score table? (y or n): ")
-  AddScore = AddScore[0]
-  AddScore = AddScore.lower()
-  if AddScore == "y":
-    CurrentDate = datetime.date.today()
-    TodaysDate = datetime.date.strftime(CurrentDate,"%d/%m/%y")
+  valid = False
+  while not valid:
+    Choice = input("Do you want to add your score to the high score table? (y or n): ")
+    Choice = Choice.lower()[0]
+    if Choice in ["y","n"]:
+      valid = True
+    else:
+      print("Please enter a valid choice (y or n)")
+
+  if Choice == "y":
     PlayerName = GetPlayerName()
     FoundSpace = False
     Count = 1
@@ -316,16 +198,15 @@ def UpdateRecentScores(RecentScores, Score):
       if RecentScores[Count].Name == '':
         FoundSpace = True
       else:
-         Count = Count + 1
+        Count = Count + 1
     if not FoundSpace:
       for Count in range(1, NO_OF_RECENT_SCORES):
         RecentScores[Count].Name = RecentScores[Count + 1].Name
         RecentScores[Count].Score = RecentScores[Count + 1].Score
-        RecentScore[Count].Date = RecentScore[Count + 1].Date
       Count = NO_OF_RECENT_SCORES
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
-    RecentScores[Count].Date = TodaysDate
+    RecentScores[Count].Date = date.today()
 
 def PlayGame(Deck, RecentScores):
   LastCard = TCard()
@@ -365,32 +246,13 @@ if __name__ == '__main__':
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
-      if HighOrLow == True:
-        LoadAceDeck(Deck)
-        ShuffleDeck(Deck)
-        PlayGame(Deck, RecentScores)
-      else:
-        LoadDeck(Deck)
-        ShuffleDeck(Deck)
-        PlayGame(Deck, RecentScores)
+      LoadDeck(Deck)
+      ShuffleDeck(Deck)
+      PlayGame(Deck, RecentScores)
     elif Choice == '2':
-      if HighOrLow == True:
-        LoadAceDeck(Deck)
-        PlayGame(Deck, RecentScores)
-      else:
-        LoadDeck(Deck)
-        PlayGame(Deck, RecentScores)
+      LoadDeck(Deck)
+      PlayGame(Deck, RecentScores)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
-    elif Choice == '4':
+    else:
       ResetRecentScores(RecentScores)
-    elif Choice == '5':
-      DisplayOptions()
-      OptionChoice = GetOptionChoice()
-<<<<<<< HEAD
-      if OptionChoice == '1':
-         HighOrLow = AceChange()
-=======
->>>>>>> 9b20e2588590cbc2c7f17aaadd037c8e796c1727
-      
-      
