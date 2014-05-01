@@ -7,6 +7,7 @@
 import datetime
 import random
 
+HighOrLow = False
 NO_OF_RECENT_SCORES = 3
 
 class TCard():
@@ -19,8 +20,7 @@ class TRecentScore():
     self.Name = ''
     self.Score = 0
     self.Date = ''
-    
-acechange = False
+
 Deck = [None]
 RecentScores = [None]
 Choice = ''
@@ -81,6 +81,19 @@ def DisplayMenu():
   print()
   print('Select an option from the menu (or enter q to quit): ', end='')
 
+def BubbleSortScores(RecentScores):
+  swapMade = True
+  list_length = len(RecentScores)
+  while swapMade:
+    swapMade = False
+    list_length = list_length -1
+    for Count in range(1,list_length):
+        if RecentScores[Count].Score < RecentScores[Count+1].Score:
+            temp = RecentScores[Count]
+            RecentScores[Count] = RecentScores[Count+1]
+            RecentScores[Count+1] = temp
+            swapMade = True
+
 def GetMenuChoice():
   Choice = input()
   print()
@@ -107,8 +120,12 @@ def SetOptions(OptionChoice):
   if OptionChoice == '1':
     AceChange()  
   
+    
+
+  
 
 def AceChange():
+  global HighOrLow
   while True:
     HighOrLow = input("Do you want the ace to be (h)igh or (l)ow: ")
     HighOrLow = HighOrLow.lower()
@@ -122,24 +139,9 @@ def AceChange():
       break
       
 
-def LoadAceDeck(Deck):
-  CurrentFile = open('deck.txt', 'r')
-  Count = 1
-  while True:
-    LineFromFile = CurrentFile.readline()
-    if not LineFromFile:
-      CurrentFile.close()
-      break
-    Deck[Count].Suit = int(LineFromFile)
-    LineFromFile = CurrentFile.readline()
-    if int(LineFromFile) == 1:
-      LineFromFile = 14
-    Deck[Count].Rank = int(LineFromFile)
-    
-    
-    Count = Count + 1  
+ 
       
-def LoadDeck(Deck):
+def LoadDeck(Deck,HighOrLow):
   CurrentFile = open('deck.txt', 'r')
   Count = 1
   while True:
@@ -147,10 +149,18 @@ def LoadDeck(Deck):
     if not LineFromFile:
       CurrentFile.close()
       break
-    Deck[Count].Suit = int(LineFromFile)
-    LineFromFile = CurrentFile.readline()
-    Deck[Count].Rank = int(LineFromFile)
-    Count = Count + 1
+    if HighOrLow == True:
+      Deck[Count].Suit = int(LineFromFile)
+      LineFromFile = CurrentFile.readline()
+      if int(LineFromFile) == 1:
+        LineFromFile = 14
+      Deck[Count].Rank = int(LineFromFile)
+      Count = Count +1
+    else:
+      Deck[Count].Suit = int(LineFromFile)
+      LineFromFile = CurrentFile.readline()
+      Deck[Count].Rank = int(LineFromFile)
+      Count = Count + 1
  
 def ShuffleDeck(Deck):
   SwapSpace = TCard()
@@ -224,6 +234,7 @@ def ResetRecentScores(RecentScores):
     RecentScores[Count].Score = 0
 
 def DisplayRecentScores(RecentScores):
+  BubbleSortScores(RecentScores)
   print()
   print('Recent Scores: ')
   print()
@@ -295,25 +306,15 @@ if __name__ == '__main__':
     RecentScores.append(TRecentScore())
   Choice = ''
   while Choice != 'q':
-    HighOrLow = False
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
-      if HighOrLow == True:
-        LoadAceDeck(Deck)
-        ShuffleDeck(Deck)
-        PlayGame(Deck, RecentScores)
-      else:
-        LoadDeck(Deck)
-        ShuffleDeck(Deck)
-        PlayGame(Deck, RecentScores)
+      LoadDeck(Deck,HighOrLow)
+      ShuffleDeck(Deck)
+      PlayGame(Deck, RecentScores)
     elif Choice == '2':
-      if HighOrLow == True:
-        LoadAceDeck(Deck)
-        PlayGame(Deck, RecentScores)
-      else:
-        LoadDeck(Deck)
-        PlayGame(Deck, RecentScores)
+      LoadDeck(Deck,HighOrLow)
+      PlayGame(Deck, RecentScores)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
