@@ -78,8 +78,24 @@ def DisplayMenu():
   print('3. Display recent scores')
   print('4. Reset recent scores')
   print('5. Options')
-  print()
+  print('6. Save high scores')
+  print('7. Load high scores')
+  print('')
   print('Select an option from the menu (or enter q to quit): ', end='')
+
+def SaveScores(RecentScores):
+  with open("save_scores.txt",mode="w",encoding='utf-8') as saveScore:
+    for count in range(1,len(RecentScores)):
+      saveScore.write(RecentScores[count].Name+"\n")
+      saveScore_number = str(RecentScores[count].Score)
+      saveScore.write(saveScore_number+"\n")
+      saveScore.write(RecentScores[count].Date+"\n")
+      
+
+def LoadScores():
+  with open("save_scores.txt",mode="r",encoding='utf-8') as my_file:
+    print("ok") 
+    
 
 def BubbleSortScores(RecentScores):
   swapMade = True
@@ -265,7 +281,7 @@ def UpdateRecentScores(RecentScores, Score):
       for Count in range(1, NO_OF_RECENT_SCORES):
         RecentScores[Count].Name = RecentScores[Count + 1].Name
         RecentScores[Count].Score = RecentScores[Count + 1].Score
-        RecentScore[Count].Date = RecentScore[Count + 1].Date
+        RecentScores[Count].Date = RecentScore[Count + 1].Date
       Count = NO_OF_RECENT_SCORES
     RecentScores[Count].Name = PlayerName
     RecentScores[Count].Score = Score
@@ -322,7 +338,10 @@ if __name__ == '__main__':
     elif Choice == '5':
       DisplayOptions()
       OptionChoice = GetOptionChoice()
-      if OptionChoice == '1':
-         HighOrLow = AceChange()
+      SetOptions(OptionChoice)
+    elif Choice == '6':
+      SaveScores(RecentScores)
+    elif Choice == '7':
+      LoadScores()
       
       
