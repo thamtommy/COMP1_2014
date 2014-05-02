@@ -93,9 +93,21 @@ def SaveScores(RecentScores):
       
 
 def LoadScores():
+  RecentScores =['']
+  LoadIt = TRecentScore()
   with open("save_scores.txt",mode="r",encoding='utf-8') as my_file:
-    print("ok") 
-    
+    for count in range(1,NO_OF_RECENT_SCORES+1):
+      LoadIt.Name = my_file.readline().rstrip("\n")
+      LoadIt.Score = my_file.readline().rstrip("\n")
+      LoadIt.Date = my_file.readline().rstrip("\n")
+    RecentScores.append(LoadIt)
+    print(RecentScores)
+
+  for count in range(1,NO_OF_RECENT_SCORES):
+    print(RecentScores[count].Name)
+    print(RecentScores[count].Score)
+    print(RecentScores[count].Date)
+          
 
 def BubbleSortScores(RecentScores):
   swapMade = True
