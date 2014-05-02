@@ -87,27 +87,25 @@ def SaveScores(RecentScores):
   with open("save_scores.txt",mode="w",encoding='utf-8') as saveScore:
     for count in range(1,len(RecentScores)):
       saveScore.write(RecentScores[count].Name+"\n")
-      saveScore_number = str(RecentScores[count].Score)
-      saveScore.write(saveScore_number+"\n")
-      saveScore.write(RecentScores[count].Date+"\n")
+      saveScore.write(str(RecentScores[count].Score+"\n"))
+      saveScore.write(sr(RecentScores[count].Date+"\n"))
       
 
 def LoadScores():
-  RecentScores =['']
-  LoadIt = TRecentScore()
-  with open("save_scores.txt",mode="r",encoding='utf-8') as my_file:
-    for count in range(1,NO_OF_RECENT_SCORES+1):
-      LoadIt.Name = my_file.readline().rstrip("\n")
-      LoadIt.Score = my_file.readline().rstrip("\n")
-      LoadIt.Date = my_file.readline().rstrip("\n")
-    RecentScores.append(LoadIt)
-    print(RecentScores)
+  RecentScores =[None]
+  try:
+    with open("save_scores.txt",mode="r",encoding='utf-8') as my_file: 
+      for count in range(1,NO_OF_RECENT_SCORES+1):
+        LoadIt = TRecentScore()
+        LoadIt.Name = my_file.readline().rstrip("\n")
+        LoadIt.Score = my_file.readline().rstrip("\n")
+        LoadIt.Date = my_file.readline().rstrip("\n")
+        RecentScores.append(LoadIt)
+      return RecentScores
+  except IOError:
+    print("There is not a file to load.")
 
-  for count in range(1,NO_OF_RECENT_SCORES):
-    print(RecentScores[count].Name)
-    print(RecentScores[count].Score)
-    print(RecentScores[count].Date)
-          
+
 
 def BubbleSortScores(RecentScores):
   swapMade = True
@@ -354,6 +352,6 @@ if __name__ == '__main__':
     elif Choice == '6':
       SaveScores(RecentScores)
     elif Choice == '7':
-      LoadScores()
+      RecentScores = LoadScores()
       
       
