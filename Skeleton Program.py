@@ -8,7 +8,7 @@ import datetime
 import random
 
 HighOrLow = False
-NO_OF_RECENT_SCORES = 3
+NO_OF_RECENT_SCORES = 10
 
 class TCard():
   def __init__(self):
@@ -24,6 +24,9 @@ class TRecentScore():
 Deck = [None]
 RecentScores = [None]
 Choice = ''
+SetSame = False
+Equal = None
+
 
 def GetRank(RankNo):
   Rank = ''
@@ -130,10 +133,11 @@ def DisplayOptions():
   print('OPTIONS MENU')
   print('')
   print('1. Set Ace to be HIGH or LOW')
+  print('2.Card of the same score ends game')
   print('')
 
 def GetOptionChoice():
-  ChoiceList = ['1','q']
+  ChoiceList = ['1','q','2']
   validOptionChoice = False
   while not validOptionChoice:
     OptionChoice = input("Select an option from the menu(or enter q to quit): ")
@@ -144,7 +148,26 @@ def GetOptionChoice():
 
 def SetOptions(OptionChoice):
   if OptionChoice == '1':
-    AceChange()  
+    AceChange()
+  if OptionChoice == '2':
+    SetSameScore()
+
+
+def SetSameScore():
+  global SetSame
+  while True:
+    SetSame = input("Do you want cards with the same value as previous card to end the game? (y or n): ")
+    SetSame = SetSame.lower()
+    if SetSame == 'y':
+      SetSame = True
+      return SetSame
+      break
+    elif SetSame == 'n':
+      SetSame = False
+      return SetSame
+      break
+    else:
+      print("Please enter 'y' or 'n'.")
   
     
 
@@ -215,11 +238,30 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
   Deck[52 - NoOfCardsTurnedOver].Suit = 0
   Deck[52 - NoOfCardsTurnedOver].Rank = 0
 
-def IsNextCardHigher(LastCard, NextCard):
+def IsNextCardHigher(LastCard, NextCard,SetSame):
+  print(SetSame)
+  global Equal
+  Equal = False
   Higher = False
-  if NextCard.Rank > LastCard.Rank:
-    Higher = True
-  return Higher
+  if SetSame == False:   
+    if NextCard.Rank > LastCard.Rank:
+      Higher = True
+      return Higher
+      
+
+  elif SetSame == True:
+    if NextCard.Rank != LastCard.Rank and NextCard.Rank > LastCard.Rank:
+      Higher = True
+      return Higher
+
+      
+    elif NextCard.Rank == LastCard.Rank:
+      Equal = True
+      
+      return Equal
+
+
+  
 
 def GetPlayerName():
   print()
@@ -273,7 +315,7 @@ def DisplayRecentScores(RecentScores):
   print()
 
 def UpdateRecentScores(RecentScores, Score):
-  AddScore = input("Do you want to add your score to the high score table? (y or n): ")
+  AddScore = input("Do you want to add your score to the high 5score table? (y or n): ")
   AddScore = AddScore[0]
   AddScore = AddScore.lower()
   if AddScore == "y":
@@ -288,7 +330,7 @@ def UpdateRecentScores(RecentScores, Score):
       else:
          Count = Count + 1
     if not FoundSpace:
-      for Count in range(1, NO_OF_RECENT_SCORES):
+      for Count in range(1, NO_OF_RECENT_gS):
         RecentScores[Count].Name = RecentScores[Count + 1].Name
         RecentScores[Count].Score = RecentScores[Count + 1].Score
         RecentScores[Count].Date = RecentScore[Count + 1].Date
@@ -297,7 +339,7 @@ def UpdateRecentScores(RecentScores, Score):
     RecentScores[Count].Score = Score
     RecentScores[Count].Date = TodaysDate
 
-def PlayGame(Deck, RecentScores):
+def PlayGame(Deck, RecentScores,Equal):
   LastCard = TCard()
   NextCard = TCard()
   GameOver = False
@@ -311,11 +353,13 @@ def PlayGame(Deck, RecentScores):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
-    Higher = IsNextCardHigher(LastCard, NextCard)
-    if (Higher and Choice == 'y') or (not Higher and Choice == 'n'):
+    Higher = IsNextCardHigher(LastCard, NextCard, SetSame)
+    if (Higher and Choice == 'y') or (not Higher and Choice == 'n') :
       DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
       LastCard.Rank = NextCard.Rank
       LastCard.Suit = NextCard.Suit
+
+
     else:
       GameOver = True
   if GameOver:
@@ -332,6 +376,7 @@ if __name__ == '__main__':
     RecentScores.append(TRecentScore())
   Choice = ''
   while Choice != 'q':
+    print(SetSame)
     DisplayMenu()
     Choice = GetMenuChoice()
     if Choice == '1':
@@ -340,7 +385,7 @@ if __name__ == '__main__':
       PlayGame(Deck, RecentScores)
     elif Choice == '2':
       LoadDeck(Deck,HighOrLow)
-      PlayGame(Deck, RecentScores)
+      PlayGame(Deck, RecentScores,Equal)
     elif Choice == '3':
       DisplayRecentScores(RecentScores)
     elif Choice == '4':
