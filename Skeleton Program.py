@@ -133,7 +133,7 @@ def DisplayOptions():
   print('OPTIONS MENU')
   print('')
   print('1. Set Ace to be HIGH or LOW')
-  print('2.Card of the same score ends game')
+  print('2. Card of the same score ends game')
   print('')
 
 def GetOptionChoice():
@@ -257,7 +257,6 @@ def IsNextCardHigher(LastCard, NextCard,SetSame):
       
     elif NextCard.Rank == LastCard.Rank:
       Equal = True
-      
       return Equal
 
 
@@ -290,9 +289,10 @@ def DisplayEndOfGameMessage(Score):
     print('WOW! You completed a perfect game.')
   print()
 
-def DisplayCorrectGuessMessage(Score):
+def DisplayCorrectGuessMessage(Score,Equal):
   print()
-  print('Well done! You guessed correctly.')
+  if Equal == False:
+    print('Well done! You guessed correctly.')
   print('Your score is now ', Score, '.', sep='')
   print()
 
@@ -355,7 +355,7 @@ def PlayGame(Deck, RecentScores,Equal):
     NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
     Higher = IsNextCardHigher(LastCard, NextCard, SetSame)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n') :
-      DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
+      DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1,Equal)
       LastCard.Rank = NextCard.Rank
       LastCard.Suit = NextCard.Suit
 
