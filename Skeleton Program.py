@@ -240,17 +240,18 @@ def GetCard(ThisCard, Deck, NoOfCardsTurnedOver):
 
 def IsNextCardHigher(LastCard, NextCard,SetSame): 
   global Equal
-  Higher = False
   if SetSame == False:   
     if NextCard.Rank > LastCard.Rank:
       Higher = True
-      return Higher
+      Equal = False
+      return Higher,Equal
       
 
   elif SetSame == True:
     if NextCard.Rank != LastCard.Rank and NextCard.Rank > LastCard.Rank:
       Higher = True
-      return Higher
+      Equal = False
+      return Higher,Equal
 
       
     elif NextCard.Rank == LastCard.Rank:
@@ -289,8 +290,8 @@ def DisplayEndOfGameMessage(Score):
 
 def DisplayCorrectGuessMessage(Score):
   print()
+  print(Equal)
   if Equal == True:
-    Score = Score - 1
     print('Your score is now ', Score, '.', sep='')
   else:
     print('Well done! You guessed correctly.')
@@ -353,10 +354,12 @@ def PlayGame(Deck, RecentScores):
     while (Choice != 'y') and (Choice != 'n'):
       Choice = GetChoiceFromUser()
     DisplayCard(NextCard)
-    NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
+    print("Play game function, Equal is {0}".format(Equal))
+    if Equal == False:
+      NoOfCardsTurnedOver = NoOfCardsTurnedOver + 1
     Higher = IsNextCardHigher(LastCard, NextCard, SetSame)
     if (Higher and Choice == 'y') or (not Higher and Choice == 'n') :
-      DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)
+      DisplayCorrectGuessMessage(NoOfCardsTurnedOver - 1)      
       LastCard.Rank = NextCard.Rank
       LastCard.Suit = NextCard.Suit
 
